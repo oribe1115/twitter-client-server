@@ -33,8 +33,8 @@ paths:
           schema:
             type: integer
           description: 操作の対象となるツイートのID
-  /tweet/{tweetID}/stamps/{stampID}:
-    delete:
+  /tweet/{tweetID}/stamps/{stampID}/destroy:
+    post:
       tags:
         - stamp
       description: 指定したツイートに押されている指定したスタンプを外します。
@@ -58,8 +58,8 @@ paths:
       tags:
         - tweet
       description: 指定したツイートにいいね（お気に入り）をつけます。
-  /tweet/{tweetID}/favorites:
-    delete:
+  /tweet/{tweetID}/favorites/destroy:
+    post:
       tags:
         - tweet
       description: 指定したツイートのいいね（お気に入り）を外します。
