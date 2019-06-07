@@ -1,8 +1,8 @@
 openapi: 3.0.0
 
 info:
-  description: "IdeaStockerについてのAPI"
+  description: "twitter-client-severについてのAPI"
   version: "1.0.0"
-  title: "IdeaStocker API"
+  title: "twitter-client-server API"
   termsOfService: "http://swagger.io/terms/"
 paths:
