@@ -1,0 +1,8 @@
+openapi: 3.0.0
+
+info:
+  description: "IdeaStockerについてのAPI"
+  version: "1.0.0"
+  title: "IdeaStocker API"
+  termsOfService: "http://swagger.io/terms/"
+paths:
