@@ -6,3 +6,81 @@ info:
   title: "twitter-client-server API"
   termsOfService: "http://swagger.io/terms/"
 paths:
+  /tweet/{tweetID}/stamps/{stampID}:
+    post:
+      tags:
+        - stamp
+      description: 指定したメッセージに指定したスタンプを押します。
+      parameters:
+        - in: path
+          name: tweetID
+          schema:
+            type: integer
+          description: 操作の対象となるツイートのID
+        - in: path
+          name: stampID
+          schema:
+            type: string
+          description: 操作の対象となるスタンプのID
+  /tweet/{tweetID}/stamps:
+    get:
+      tags:
+        - stamp
+      description: 指定したツイートに押されているスタンプを全て取得します。
+      parameters:
+        - in: path
+          name: tweetID
+          schema:
+            type: integer
+          description: 操作の対象となるツイートのID
+  /tweet/{tweetID}/stamps/{stampID}:
+    delete:
+      tags:
+        - stamp
+      description: 指定したツイートに押されている指定したスタンプを外します。
+  /tweet/new:
+    post:
+      tags:
+        - tweet
+      description: ツイートを投稿します。
+  /tweet/{tweetID}/retweet:
+    post:
+      tags:
+        - tweet
+      description: 指定したツイートをリツイートします。
+  /tweet/{tweetID}/unretweet:
+    post:
+      tags:
+        - tweet
+      description: 指定したツイートのリツイートを取り消します。
+  /tweet/{tweetID}/favorites:
+    post:
+      tags:
+        - tweet
+      description: 指定したツイートにいいね（お気に入り）をつけます。
+  /tweet/{tweetID}/favorites:
+    delete:
+      tags:
+        - tweet
+      description: 指定したツイートのいいね（お気に入り）を外します。
+  /statuses/home_timeline:
+    get:
+      tags:
+        - timeline
+      description: ホームのタイムラインを取得します。
+  /lists/list:
+    get:
+      tags:
+        - timeline
+      description: ユーザーのリスト一覧を返します。
+  /lists/{listID}/statuses:
+    get:
+      tags:
+       - timeline
+      description: リストのタイムラインを取得します。
+      parameters:
+        - in: path
+          name: listID
+          schema:
+            type: integer
+          description: タイムラインを取得するリストのID
