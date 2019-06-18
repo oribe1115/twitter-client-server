@@ -84,3 +84,104 @@ paths:
           schema:
             type: integer
           description: タイムラインを取得するリストのID
+
+components:
+  schemas:
+    Tweet:
+      description:
+        anacondaのTweet構造体
+        ここには主要なものしか書いてません
+      type: object
+      properties:
+        id:
+          type: int64
+          description: ツイートのID
+        text:
+          type: string
+          description: ツイートの内容
+        user:
+          $ref: "#/components/schemas/User"
+        created_at:
+          type: string
+          description: ツイートした日時
+        favorited_count:
+          type: int
+          description: ツイートへのいいねの数
+        favorited:
+          type: bool
+          description: ユーザーがいいねをつけているか否か
+        retweet_count:
+          type: int
+          description: ツイートへのリツイートの数
+        retweeted:
+          type: bool
+          description: ユーザーがリツイートしているか否か
+        in_reply_to_screen_name:
+          type: string
+          description: このツイートがリプライである場合、リプライ相手のscreen_name
+        in_reply_to_user_id:
+          type: int64
+          description: このツイートがリプライである場合、リプライ相手のid
+        in_reply_to_status_id:
+          type: int64
+          description: このツイートがリプライである場合、リプライ先のツイートのid
+        entities:
+          $ref: "#/components/schemas/Entities"
+        
+    User:
+      description: 
+        anacondaのUser構造体
+        ここには主要なものしか書いていません
+      type: object
+      properties:
+        id:
+          type: int64
+          description: ユーザーのid
+        name:
+          type: string
+          description: ユーザーの名前
+        screen_name:
+          type: string
+          description: ユーザー名(@...)
+        default_profile:
+          type: bool
+          description: プロフィールが初期設定のままであるか否か
+        default_profile_image:
+          type: bool
+          description: プロフィール画像が初期設定のままであるか否か
+        profile_image_url_https:
+          type: string
+          description: ユーザー画像のURL
+        profile_banner_url:
+          type: string
+          description: バーナー画像のURL
+        description:
+          type: string
+          description: プロフィールの説明欄のテキスト
+        statuses_count:
+          type: int
+          description: ツイートの数
+        favourites_count:
+          type: int
+          description: いいねの数
+        followers_count:
+          type: int
+          description: フォロワーの数
+        friends_count:
+          type: int
+          description: フレンド(フォロイー)の数
+        following:
+          type: bool
+          description: このユーザーをフォローしているか
+        follow_request_sent:
+          type: bool
+          description: このユーザーにフォローリクエストを出しているか否か
+        protected:
+          type: bool
+          description: アカウントに鍵を掛けているか否か
+        location:
+          type: string
+          description: 所在地
+    
+    Entities:
+      description: ツイートに付随する情報
