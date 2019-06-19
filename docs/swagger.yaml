@@ -185,3 +185,68 @@ components:
     
     Entities:
       description: ツイートに付随する情報
+      type: object
+      properties:
+        hashtags:
+          type: array
+          description: ハッシュタグの情報
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                description: ハッシュタグのテキスト
+              indices:
+                type: array
+                description: ハッシュタグの開始位置・終了位置を指定
+                items:
+                  type: int
+        urls:
+          type: array
+          description: URLの情報
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+              expanded_url:
+                type: string
+              display_url:
+                type: string
+              indices:
+                type: array
+                items:
+                  type: int
+        user_mentions:
+          type: array
+          items:
+            type: object
+            properties:
+              name: 
+                type: string
+              screen_name:
+                type: string
+              id:
+                type: int64
+              indices:
+                type: array
+                items:
+                  type: int
+        media:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: int64
+              media_url:
+                type: string
+              url:
+                type: string
+              expanded_url:
+                type: string
+              display_url:
+                type: string
+              size:
+                type: MediaSizes
+              
