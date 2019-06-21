@@ -22,6 +22,11 @@ paths:
           schema:
             type: string
           description: 操作の対象となるスタンプのID
+      responses:
+        200:
+          description: 正常にスタンプを押せました
+        500:
+          description: スタンプを押すのに失敗しました
   /tweet/{tweetID}/stamps:
     get:
       tags:
@@ -86,6 +91,22 @@ paths:
           description: タイムラインを取得するリストのID
 
 components:
+  parameters:
+    tweetIDInPath:
+      name: tweetID
+      description: ツイートのID
+      in: path
+      required: true
+      schema:
+        type: int64
+    stampIDInPath:
+      name: stampID
+      description: スタンプのID
+      in: path
+      required: true
+      schema:
+        type: string
+
   schemas:
     Tweet:
       description:
@@ -251,6 +272,7 @@ components:
                 type: string
               size:
                 type: MediaSizes
+    
     Stamp:
       description: ツイートに押されたスタンプの情報
       type: object
