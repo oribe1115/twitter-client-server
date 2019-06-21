@@ -12,19 +12,15 @@ paths:
         - stamp
       description: 指定したメッセージに指定したスタンプを押します。
       parameters:
-        - in: path
-          name: tweetID
-          schema:
-            type: integer
-          description: 操作の対象となるツイートのID
-        - in: path
-          name: stampID
-          schema:
-            type: string
-          description: 操作の対象となるスタンプのID
+        - $ref: "#/components/parameters/tweetIDInPath"
+        - $ref: "#/components/parameters/stampIDInPath"
       responses:
         200:
           description: 正常にスタンプを押せました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StampTweet"
         500:
           description: スタンプを押すのに失敗しました
   /tweet/{tweetID}/stamps:
@@ -33,21 +29,43 @@ paths:
         - stamp
       description: 指定したツイートに押されているスタンプを全て取得します。
       parameters:
-        - in: path
-          name: tweetID
-          schema:
-            type: integer
-          description: 操作の対象となるツイートのID
+        - $ref: "#/components/parameters/tweetIDInPath"
+      responses:
+        200:
+          description: 正常に取得できました
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Stamp"
+        500:
+          description: 取得に失敗しました
   /tweet/{tweetID}/stamps/{stampID}/destroy:
     post:
       tags:
         - stamp
       description: 指定したツイートに押されている指定したスタンプを外します。
+      parameters:
+        - $ref: "#/components/parameters/tweetIDInPath"
+        - $ref: "#/components/parameters/stampIDInPath"
+      responses:
+        200:
+          description: 正常にスタンプを外しました
+        500:
+          description: スタンプを外すのに失敗しました。もしくは該当するスタンプが存在しません
   /tweet/new:
     post:
       tags:
         - tweet
       description: ツイートを投稿します。
+      responses:
+        200:
+          description: 正常に投稿できました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StampTweet"
   /tweet/{tweetID}/retweet:
     post:
       tags:
@@ -63,7 +81,7 @@ paths:
       tags:
         - tweet
       description: 指定したツイートにいいね（お気に入り）をつけます。
-  /tweet/{tweetID}/favorites/destroy:
+  /tweet/{tweetID}/unfavorites:
     post:
       tags:
         - tweet
@@ -115,7 +133,8 @@ components:
       type: object
       properties:
         id:
-          type: int64
+          type: integer
+          format: int64
           description: ツイートのID
         text:
           type: string
@@ -126,25 +145,27 @@ components:
           type: string
           description: ツイートした日時
         favorited_count:
-          type: int
+          type: integer
           description: ツイートへのいいねの数
         favorited:
-          type: bool
+          type: boolean
           description: ユーザーがいいねをつけているか否か
         retweet_count:
-          type: int
+          type: integer
           description: ツイートへのリツイートの数
         retweeted:
-          type: bool
+          type: boolean
           description: ユーザーがリツイートしているか否か
         in_reply_to_screen_name:
           type: string
           description: このツイートがリプライである場合、リプライ相手のscreen_name
         in_reply_to_user_id:
-          type: int64
+          type: integer
+          format: int64
           description: このツイートがリプライである場合、リプライ相手のid
         in_reply_to_status_id:
-          type: int64
+          type: integer
+          format: int64
           description: このツイートがリプライである場合、リプライ先のツイートのid
         entities:
           $ref: "#/components/schemas/Entities"
@@ -156,7 +177,8 @@ components:
       type: object
       properties:
         id:
-          type: int64
+          type: integer
+          format: int64
           description: ユーザーのid
         name:
           type: string
@@ -165,10 +187,10 @@ components:
           type: string
           description: ユーザー名(@...)
         default_profile:
-          type: bool
+          type: boolean
           description: プロフィールが初期設定のままであるか否か
         default_profile_image:
-          type: bool
+          type: boolean
           description: プロフィール画像が初期設定のままであるか否か
         profile_image_url_https:
           type: string
@@ -180,25 +202,25 @@ components:
           type: string
           description: プロフィールの説明欄のテキスト
         statuses_count:
-          type: int
+          type: integer
           description: ツイートの数
         favourites_count:
-          type: int
+          type: integer
           description: いいねの数
         followers_count:
-          type: int
+          type: integer
           description: フォロワーの数
         friends_count:
-          type: int
+          type: integer
           description: フレンド(フォロイー)の数
         following:
-          type: bool
+          type: boolean
           description: このユーザーをフォローしているか
         follow_request_sent:
-          type: bool
+          type: boolean
           description: このユーザーにフォローリクエストを出しているか否か
         protected:
-          type: bool
+          type: boolean
           description: アカウントに鍵を掛けているか否か
         location:
           type: string
@@ -223,7 +245,7 @@ components:
                 type: array
                 description: ハッシュタグの開始位置・終了位置を指定
                 items:
-                  type: int
+                  type: integer
         urls:
           type: array
           description: URLの情報
@@ -239,7 +261,7 @@ components:
               indices:
                 type: array
                 items:
-                  type: int
+                  type: integer
         user_mentions:
           type: array
           items:
@@ -250,18 +272,20 @@ components:
               screen_name:
                 type: string
               id:
-                type: int64
+                type: integer
+                format: int64
               indices:
                 type: array
                 items:
-                  type: int
+                  type: integer
         media:
           type: array
           items:
             type: object
             properties:
               id:
-                type: int64
+                type: integer
+                format: int64
               media_url:
                 type: string
               url:
@@ -281,16 +305,18 @@ components:
           type: string
           description: twemojiの絵文字のid
         tweet_id:
-          type: int64
+          type: integer
+          format: int64
           description: ツイートのid
         user_id:
-          type: int64
+          type: integer
+          format: int64
           description: スタンプを押した人のユーザーid
         user_screen_name:
           type: string
           description: スタンプを押した人のユーザー名(@...)
         count:
-          type: int
+          type: integer
           description: 押されたスタンプの数
         created_at:
           type: string
@@ -298,5 +324,15 @@ components:
         updated_at:
           type: string
           description: 最後に押した日時
-        
+
+    StampTweet:
+      description: スタンプの情報付きのツイート情報
+      type: object
+      properties:
+        tweet:
+          $ref: "#/components/schemas/Tweet"
+        stamps:
+          type: array
+          items:
+            $ref: "#/components/schemas/Stamp"      
               
