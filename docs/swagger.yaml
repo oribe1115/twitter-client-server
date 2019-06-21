@@ -251,6 +251,7 @@ paths:
       parameters:
         - in: path
           name: listID
+          required: true
           schema:
             type: integer
           description: タイムラインを取得するリストのID
@@ -275,7 +276,8 @@ components:
       in: path
       required: true
       schema:
-        type: int64
+        type: integer
+        format: int64
     stampIDInPath:
       name: stampID
       description: スタンプのID
@@ -535,7 +537,7 @@ components:
         user:
           $ref: "#/components/schemas/User"
         url:
-          type: srting
+          type: string
         member_count:
           type: integer
 
