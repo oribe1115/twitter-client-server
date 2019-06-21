@@ -6,11 +6,85 @@ info:
   title: "twitter-client-server API"
   termsOfService: "http://swagger.io/terms/"
 paths:
+  /authorize:
+    get:
+      tags:
+        - authorize
+      description: ツイッター連携の認証画面へのurlを返します
+      responses:
+        200:
+          description: 認証用urlを取得できました
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: 認証用のurl
+        500:
+          description: urlの取得に失敗しました
+  /authorize/callback:
+    get:
+      tags:
+        - authorize
+      description: 
+        ツイッター連携におけるコールバック用のエンドポイントです
+        クライアントサイドから叩くことはありません
+      responses:
+        200:
+          description: アクセストークンの取得に成功しました
+        500:
+          description: アクセストークンの取得に失敗しました
+  /users/me:
+    get:
+      tags:
+        - user
+      description: ユーザー自身の情報をを返します
+      responses:
+        200:
+          description: 正常に取得できました
+          content:
+            application/json:
+              schema:
+                properties:
+                  login:
+                    type: boolean
+                    example: true
+                    description: ツイッターの認証情報が得られているか
+                  user:
+                    $ref: "#/components/schemas/User"
+        500:
+          description: 取得に失敗しました　または認証情報が得られていません
+          content:
+            application/json:
+              schema:
+                properties:
+                  login:
+                    type: boolean
+                    example: false
+                    description: ツイッターの認証情報が得られているか
+  /users/{userID}:
+    get:
+      tags:
+        - user
+      description: ユーザーの情報を返します
+      parameters:
+        - $ref: "#/components/parameters/userIDInPath"
+      responses:
+        200:
+          description: 正常に取得できました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        500:
+          description: 取得に失敗しました
   /tweet/{tweetID}/stamps/{stampID}:
     post:
       tags:
         - stamp
-      description: 指定したメッセージに指定したスタンプを押します。
+      description: 指定したメッセージに指定したスタンプを押します
       parameters:
         - $ref: "#/components/parameters/tweetIDInPath"
         - $ref: "#/components/parameters/stampIDInPath"
@@ -158,11 +232,22 @@ paths:
       tags:
         - timeline
       description: ユーザーのリスト一覧を返します。
+      responses:
+        200:
+          description: 正常に取得できました
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/List"
+        500:
+          description: 取得に失敗しました
   /lists/{listID}/statuses:
     get:
       tags:
        - timeline
-      description: リストのタイムラインを取得します。
+      description: リストのタイムラインを取得します
       parameters:
         - in: path
           name: listID
@@ -170,6 +255,17 @@ paths:
             type: integer
           description: タイムラインを取得するリストのID
         - $ref: "#/components/parameters/countInQuery"
+      responses:
+        200:
+          description: 正常に取得できました
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StampTweet"
+        500:
+          description: 取得に失敗しました
 
 components:
   parameters:
@@ -187,6 +283,14 @@ components:
       required: true
       schema:
         type: string
+    userIDInPath:
+      name: userID
+      description: ユーザーID
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
     countInQuery:
       name: count
       description: 取得件数
@@ -412,5 +516,27 @@ components:
         text:
           type: string
           description: ツイートの内容
+    
+    List:
+      description:
+        anacondaのList構造体
+        ここには主要なものしか書いていません
+      type: object
+      properties:
+        name:
+          type: string
+          description: リスト名
+        id:
+          type: integer
+          format: int64
+          description: リストのid
+        description:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+        url:
+          type: srting
+        member_count:
+          type: integer
 
               
