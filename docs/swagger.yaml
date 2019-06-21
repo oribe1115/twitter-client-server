@@ -139,7 +139,20 @@ paths:
     get:
       tags:
         - timeline
-      description: ホームのタイムラインを取得します。
+      description: ホームのタイムラインを取得します
+      parameters:
+        - $ref: "#/components/parameters/countInQuery"
+      responses:
+        200:
+          description: 正常に取得できました
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StampTweet"
+        500:
+          description: 取得に失敗しました
   /lists/list:
     get:
       tags:
@@ -156,6 +169,7 @@ paths:
           schema:
             type: integer
           description: タイムラインを取得するリストのID
+        - $ref: "#/components/parameters/countInQuery"
 
 components:
   parameters:
@@ -173,6 +187,12 @@ components:
       required: true
       schema:
         type: string
+    countInQuery:
+      name: count
+      description: 取得件数
+      in: query
+      schema:
+        type: integer
 
   schemas:
     Tweet:
