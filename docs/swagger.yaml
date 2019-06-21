@@ -184,7 +184,9 @@ components:
           description: 所在地
     
     Entities:
-      description: ツイートに付随する情報
+      description: 
+        ツイートに付随する情報
+        anacondaのEntities構造体
       type: object
       properties:
         hashtags:
@@ -249,4 +251,30 @@ components:
                 type: string
               size:
                 type: MediaSizes
+    Stamp:
+      description: ツイートに押されたスタンプの情報
+      type: object
+      properties:
+        stamp_id:
+          type: string
+          description: twemojiの絵文字のid
+        tweet_id:
+          type: int64
+          description: ツイートのid
+        user_id:
+          type: int64
+          description: スタンプを押した人のユーザーid
+        user_screen_name:
+          type: string
+          description: スタンプを押した人のユーザー名(@...)
+        count:
+          type: int
+          description: 押されたスタンプの数
+        created_at:
+          type: string
+          description: 最初に押した日時
+        updated_at:
+          type: string
+          description: 最後に押した日時
+        
               
