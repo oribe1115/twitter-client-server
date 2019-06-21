@@ -59,6 +59,11 @@ paths:
       tags:
         - tweet
       description: ツイートを投稿します。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewTweet"
       responses:
         200:
           description: 正常に投稿できました
@@ -70,22 +75,66 @@ paths:
     post:
       tags:
         - tweet
-      description: 指定したツイートをリツイートします。
+      description: 指定したツイートをリツイートします
+      parameters:
+        - $ref: "#/components/parameters/tweetIDInPath"
+      responses:
+        200:
+          description: 正常にリツイートできました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StampTweet"
+        500:
+          description: リツイートに失敗しました
   /tweet/{tweetID}/unretweet:
     post:
       tags:
         - tweet
-      description: 指定したツイートのリツイートを取り消します。
+      description: 指定したツイートのリツイートを取り消します
+      parameters:
+        - $ref: "#/components/parameters/tweetIDInPath"
+      responses:
+        200:
+          description: 正常にリツイートを取り消しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StampTweet"
+        500:
+          description: リツイートの取り消しにに失敗しました
   /tweet/{tweetID}/favorites:
     post:
       tags:
         - tweet
-      description: 指定したツイートにいいね（お気に入り）をつけます。
+      parameters:
+        - $ref: "#/components/parameters/tweetIDInPath"
+      description: 指定したツイートにいいね（お気に入り）をつけます
+      responses:
+        200:
+          description: 正常にいいねをつけました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StampTweet"
+        500:
+          description: いいねをつけるのに失敗しました
   /tweet/{tweetID}/unfavorites:
     post:
       tags:
         - tweet
-      description: 指定したツイートのいいね（お気に入り）を外します。
+      description: 指定したツイートのいいね（お気に入り）を外します
+      parameters:
+        - $ref: "#/components/parameters/tweetIDInPath"
+      responses:
+        200:
+          description: 正常にいいねを外しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StampTweet"
+        500:
+          description: いいねを外すのに失敗しました            
   /statuses/home_timeline:
     get:
       tags:
@@ -334,5 +383,14 @@ components:
         stamps:
           type: array
           items:
-            $ref: "#/components/schemas/Stamp"      
+            $ref: "#/components/schemas/Stamp"
+
+    NewTweet:
+      description: 投稿するツイートの情報
+      type: object
+      properties:
+        text:
+          type: string
+          description: ツイートの内容
+
               
