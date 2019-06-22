@@ -10,10 +10,6 @@ type MyUserDataToCheck struct {
 	User  anaconda.User
 }
 
-// func TellMyId () (int, error) {
-// 	id := api.
-// }
-
 func TellMe() (MyUserDataToCheck, error) {
 	myDataToCheck := MyUserDataToCheck{}
 	myData, err := api.GetSelf(nil)
@@ -44,4 +40,13 @@ func TellMyScreenName() (string, error) {
 	}
 
 	return myData.ScreenName, nil
+}
+
+func TellOtherUserData(userScreenName string) (anaconda.User, error) {
+	userData, err := api.GetUsersShow(userScreenName, nil)
+	if err != nil {
+		return userData, err
+	}
+
+	return userData, nil
 }
