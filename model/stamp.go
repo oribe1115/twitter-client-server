@@ -26,11 +26,11 @@ func CreateTable() error {
 }
 
 //スタンプを追加する関数
-func AddToStamp(tweetID int64, stampID string) (Stamp error) {
+func AddToStamp(tweetID int64, stampID string) (Stamp, error) {
 	userID, _ := TellMyUserId()
-	userScreenName, _ := TellMyScreenName()	
+	userScreenName, _ := TellMyScreenName()
 	var checkCount int
-	var checkStamp Stamp
+	checkStamp := Stamp{}
 	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ? And user_screen_name = ?", stampID, tweetID, userID, userScreenName).First(&checkStamp).Count(&checkCount)
 
 	//既に押してあるか押してないかで分岐
@@ -54,21 +54,19 @@ func AddToStamp(tweetID int64, stampID string) (Stamp error) {
 
 		return newStamp, nil
 
-	} 
-		//countを1増やす
-		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
-		checkStamp.UpdatedAt = time.Now().In(jst)
-		checkStamp.Count++
-		db.Save(&checkStamp)
-		return checkStamp, nil
-		
+	}
+	//countを1増やす
+	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+	checkStamp.UpdatedAt = time.Now().In(jst)
+	checkStamp.Count++
+	db.Save(&checkStamp)
+	return checkStamp, nil
 
 }
 
 //スタンプを削除する関数
-func DeleteToStamp(tweetId int64, stampID string) error {
+func DeleteToStamp(tweetID int64, stampID string) error {
 	userID, _ := TellMyUserId()
-	userScreenName, _ := TellMyScreenName()	
 	var stamp Stamp
 	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ?", stampID, tweetID, userID).First(&stamp)
 	err := db.Delete(&stamp).Error
@@ -82,7 +80,7 @@ func DeleteToStamp(tweetId int64, stampID string) error {
 //スタンプのリストを取得する関数
 func GetStampList(tweetId int64, stampID string) ([]Stamp, error) {
 	stamplist := []Stamp{}
-	err := db.Where("tweet_id = ?", tweetId).select("*").Find(&stamplist).Error
+	err := db.Where("tweet_id = ?", tweetId).Select("*").Find(&stamplist).Error
 	if err != nil {
 		return nil, errors.New("faild to get stamp list")
 	}
