@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/middleware"
 
 	"github.com/oribe1115/twitter-client-server/model"
+	"github.com/oribe1115/twitter-client-server/handler"
 
 )
 
@@ -40,6 +41,10 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "HelloWorld")
 	})
+
+	e.GET("/authorize", handler.GetRequestTokenHandler)
+	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
+
 
 	port := os.Getenv("PORT")
 	if port == "" {

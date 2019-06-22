@@ -8,5 +8,5 @@ require (
 	github.com/jinzhu/gorm v1.9.9
 	github.com/joho/godotenv v1.3.0
 	github.com/labstack/echo v3.3.10+incompatible
-	github.com/oribe1115/practice-twitter v0.0.0-20190620145023-ef53d8b17450 // indirect
+	github.com/oribe1115/practice-twitter v0.0.0-20190620145023-ef53d8b17450
 )
