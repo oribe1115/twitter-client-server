@@ -9,7 +9,7 @@ import (
 	"github.com/garyburd/go-oauth/oauth"
 	"github.com/labstack/echo"
 
-	"github.com/oribe1115/practice-twitter/model"
+	"github.com/oribe1115/twitter-client-server/model"
 )
 
 var (
