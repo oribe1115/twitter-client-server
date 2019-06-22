@@ -17,6 +17,12 @@ var (
 	apiInHandler *anaconda.TwitterApi
 )
 
+// 認証用urlをJSON形式で返す用
+type AuthorizeURL struct {
+	URL string `json:"url"`
+}
+
+// 認証用urlを返す
 func GetRequestTokenHandler(c echo.Context) error {
 	apiInHandler = anaconda.NewTwitterApiWithCredentials("", "", os.Getenv("CONSUMER_KEY"), os.Getenv("CONSUMER_SECRET"))
 
@@ -30,10 +36,14 @@ func GetRequestTokenHandler(c echo.Context) error {
 	}
 	credential = tmpCred
 
+	authorizeURL := AuthorizeURL{}
+	authorizeURL.URL = url
+
 	fmt.Println("success to send authorizeing request")
-	return c.String(http.StatusOK, url)
+	return c.JSON(http.StatusOK, authorizeURL)
 }
 
+// callback urlに帰ってきたものからtokenを取得
 func GetAccessTokenHandler(c echo.Context) error {
 	verifier := c.QueryParam("oauth_verifier")
 
