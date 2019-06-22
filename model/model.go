@@ -2,6 +2,7 @@ package model
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"os"
 
@@ -38,6 +39,8 @@ func EstablishConnection() (*gorm.DB, error) {
 		return nil, errors.New("faild to connect to DB")
 	}
 	db = _db
+
+	fmt.Println("success access")
 
 	return db, nil
 }
