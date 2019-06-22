@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -18,6 +19,9 @@ func main() {
 		_, err := model.EstablishConnection()
 		if err != nil {
 			log.Fatal("Cannot Connect to Database: %s", err)
+			fmt.Println(err)
+		} else {
+			fmt.Println("success to connect")
 		}
 	}
 
