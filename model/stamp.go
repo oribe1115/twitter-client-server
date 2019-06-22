@@ -28,20 +28,24 @@ func createTable() error {
 func AddToStamp(tweetId int64, stampID string) error {
 	userId := TellMyUserId()
 	userScreenName := TellMyScreenName()
-	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ? And user_screen_name = ?", "stampID","tweetID","userId","userScreenName").First(&CheckStamp)
-	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ? And user_screen_name = ?", "stampID","tweetID","userId","userScreenName").count(&CheckCount)
+	var checkCount int
+	var checkStamp Stamp{}
+	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ? And user_screen_name = ?", "stampID","tweetID","userId","userScreenName").First(&checkStamp).Count(&checkCount)
+
 	
 	//既に押してあるか押してないかで分岐
-	if CheckCount = 0 {
+	if checkCount == 0 {
 		//新しく追加されるスタンプレコードの作成
 		newStamp := Stamp{}
 		newStamp.StampID = stampID
 		newStamp.TweetID = tweetId
 		newStamp.UserID = TellMyUserId()
 		newStamp.UserScreenName = TellMyScreenName()
-		newStamp.count = 1
-		newStamp.CreatedAt = time.Time
-		newStamp.UpdatedAt = time.Time
+		newStamp.Count = 1
+		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+		newStamp.CreatedAt = time.Now().In(jst)
+		newStamp.UpdatedAt = time.Now().In(jst)
+
 		//DBにデータを挿入
 		err := db.Table(stamps).Create(&newStamp).Error
 		if err != nil {
@@ -52,21 +56,20 @@ func AddToStamp(tweetId int64, stampID string) error {
 
 	} else {
 		//countを1増やす
+		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+		checkStamp.UpdatedAt = time.Now().In(jst)
+		checkStamp.Count += 1
+		db.Save(&checkStamp)
 
-
-	}
-
-
-
-	//新しく追加されるスタンプレコードの作成
-	newStamp := Stamp{}
-	newStamp.StampID = stampID
-	newStamp.TweetID = tweetId
+		}
 
 
 
 
-	db.Table(stamps).Update("Count", ++)
+
+
+
+	
 	
 }
 
