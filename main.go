@@ -44,6 +44,8 @@ func main() {
 	e.GET("/user/me", handler.TellMeHandler)
 	e.GET("user/:userScreenName", handler.TellOtherUserData)
 
+	e.GET("create/table", handler.CreateTableHandler)
+
 	e.GET("/authorize", handler.GetRequestTokenHandler)
 	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
 
