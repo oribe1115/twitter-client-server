@@ -47,6 +47,8 @@ func main() {
 	e.GET("/authorize", handler.GetRequestTokenHandler)
 	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
 
+	e.POST("tweet/new", handler.NewTweetPostHandler)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "4000"

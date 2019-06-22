@@ -14,6 +14,7 @@ type StampTweet struct {
 	Stamp
 }
 
+// 新規ツイートを投稿
 func PostNewTweet(newTweet NewTweet) (StampTweet, error) {
 	tweet, err := api.PostTweet(newTweet.Text, nil)
 	stampTweet := StampTweet{}
