@@ -55,6 +55,7 @@ func main() {
 	e.POST("tweet/new", handler.NewTweetPostHandler)
 
 	e.GET("/statuses/home_timeline", handler.GetHomeTimelineHandler)
+	e.GET("/lists/list", handler.GetListsHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
