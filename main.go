@@ -57,6 +57,7 @@ func main() {
 	e.GET("/statuses/home_timeline", handler.GetHomeTimelineHandler)
 	e.GET("/lists/list", handler.GetListsHandler)
 	e.GET("/lists/:listID/statuses", handler.GetListStatusesHandler)
+	e.GET("/statuses/:userID", handler.GetUserTimelineHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
