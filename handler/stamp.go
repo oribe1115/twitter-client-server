@@ -18,22 +18,25 @@ func CreateTableHandler(c echo.Context) error {
 	return c.String(http.StatusCreated, "tasks table created!\n")
 }
 
+// スタンプを追加する
 func AddNewStampHandler(c echo.Context) error {
 	tweetid, _ := strconv.ParseInt(c.Param("tweetID"), 10, 64)
 	stampid := c.Param("stampID")
-	_, err := model.AddToStamp(tweetid, stampid)
+	stamp, err := model.AddToStamp(tweetid, stampid)
 	if err != nil {
 		fmt.Println(err)
-		return c.String(http.StatusInternalServerError, "faild to add")
+		return c.String(http.StatusInternalServerError, "faild to add stamp")
 	}
-
-	stamplist, err := model.GetStampList(tweetid, stampid)
+	tweet, err := model.GetJustTweet(tweetid)
 	if err != nil {
 		fmt.Println(err)
-		return c.String(http.StatusInternalServerError, "faild to get stamp list")
+		return c.String(http.StatusInternalServerError, "faild get tweet")
 	}
+	tweetData := model.StampTweet{}
+	tweetData.Tweet = tweet
+	tweetData.Stamp = stamp
 
-	return c.JSON(http.StatusOK, stamplist)
+	return c.JSON(http.StatusOK, tweetData)
 }
 
 func GetStampListHandler(c echo.Context) error {

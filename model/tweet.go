@@ -26,3 +26,11 @@ func PostNewTweet(newTweet NewTweet) (StampTweet, error) {
 
 	return stampTweet, nil
 }
+
+func GetJustTweet(tweetID int64) (anaconda.Tweet, error) {
+	tweet, err := api.GetTweet(tweetID, nil)
+	if err != nil {
+		return tweet, err
+	}
+	return tweet, nil
+}
