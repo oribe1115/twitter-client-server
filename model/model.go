@@ -33,9 +33,9 @@ func GetTwitterAPI() {
 // DBとの接続
 func EstablishConnection() (*gorm.DB, error) {
 	databaseURL = os.Getenv("DATABASE_URL")
-	log.Fatal("fail: %s", databaseURL)
 	_db, err := gorm.Open("postgres", databaseURL)
 	if err != nil {
+		log.Fatal("fail: %s", databaseURL)
 		return nil, errors.New("faild to connect to DB")
 	}
 	db = _db
