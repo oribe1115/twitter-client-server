@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"os"
+	"log"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -12,6 +13,14 @@ import (
 )
 
 func main() {
+	database := os.Getenv("DATABASE_URL")
+	if database != "" {
+		_, err := model.EstablishConnection()
+		if err != nil {
+			log.Fatal("Cannot Connect to Database: %s", err)
+		}
+	}
+
 	enviroment := os.Getenv("ENVIROMENT")
 	if enviroment == "" {
 		model.LoadEnv()
