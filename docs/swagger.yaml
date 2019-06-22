@@ -64,13 +64,13 @@ paths:
                     type: boolean
                     example: false
                     description: ツイッターの認証情報が得られているか
-  /users/{userID}:
+  /users/{userScreenName}:
     get:
       tags:
         - user
       description: ユーザーの情報を返します
       parameters:
-        - $ref: "#/components/parameters/userIDInPath"
+        - $ref: "#/components/parameters/userScreenNameInPath"
       responses:
         200:
           description: 正常に取得できました
@@ -267,6 +267,26 @@ paths:
                   $ref: "#/components/schemas/StampTweet"
         500:
           description: 取得に失敗しました
+  /statuses/{userID}:
+    get:
+      tags:
+        - timeline
+      description: そのユーザーのツイート群を返します
+      parameters:
+        - $ref: "#/components/parameters/countInQuery"
+        - $ref: "#/components/parameters/userIDInPath"
+      responses:
+        200:
+          description: 正常に取得できました
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StampTweet"
+        500:
+          description: 取得に失敗しました
+
 
 components:
   parameters:
@@ -293,12 +313,20 @@ components:
       schema:
         type: integer
         format: int64
+    userScreenNameInPath:
+      name: userScreenName
+      description: ユーザー名(@...)
+      in: path
+      required: true
+      schema:
+        type: string
     countInQuery:
       name: count
       description: 取得件数
       in: query
       schema:
         type: integer
+    
 
   schemas:
     Tweet:
