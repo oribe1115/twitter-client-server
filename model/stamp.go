@@ -78,7 +78,7 @@ func DeleteToStamp(tweetID int64, stampID string) error {
 }
 
 //スタンプのリストを取得する関数
-func GetStampList(tweetId int64, stampID string) ([]Stamp, error) {
+func GetStampList(tweetId int64) ([]Stamp, error) {
 	stamplist := []Stamp{}
 	err := db.Where("tweet_id = ?", tweetId).Select("*").Find(&stamplist).Error
 	if err != nil {

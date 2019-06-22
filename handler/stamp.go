@@ -41,8 +41,7 @@ func AddNewStampHandler(c echo.Context) error {
 
 func GetStampListHandler(c echo.Context) error {
 	tweetid, _ := strconv.ParseInt(c.Param("tweetID"), 10, 64)
-	stampid := c.Param("stampID")
-	stamplist, err := model.GetStampList(tweetid, stampid)
+	stamplist, err := model.GetStampList(tweetid)
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild to get stamp list")

@@ -12,7 +12,7 @@ type NewTweet struct {
 // スタンプ情報付きツイート情報
 type StampTweet struct {
 	Tweet anaconda.Tweet
-	Stamp
+	Stamp []Stamp
 }
 
 // 新規ツイートを投稿
