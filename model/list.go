@@ -1,6 +1,9 @@
 package model
 
 import (
+	"net/url"
+	"strconv"
+
 	"github.com/ChimeraCoder/anaconda"
 )
 
@@ -14,4 +17,21 @@ func GetLists() ([]anaconda.List, error) {
 		return nil, err
 	}
 	return lists, nil
+}
+
+func GetListStatuses(listID int64, count int) ([]StampTweet, error) {
+	v := url.Values{}
+	v.Set("count", strconv.Itoa(count))
+
+	tweetList, err := api.GetListTweets(listID, true, v)
+	if err != nil {
+		return nil, err
+	}
+
+	stampTweetList, err := MakeStampTweet(tweetList)
+	if err != nil {
+		return nil, err
+	}
+
+	return stampTweetList, nil
 }
