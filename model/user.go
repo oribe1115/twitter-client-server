@@ -27,3 +27,21 @@ func TellMe() (MyUserDataToCheck, error) {
 	myDataToCheck.User = myData
 	return myDataToCheck, nil
 }
+
+func TellMyUserId() (int64, error) {
+	myData, err := api.GetSelf(nil)
+	if err != nil {
+		return 0, err
+	}
+
+	return myData.Id, nil
+}
+
+func TellMyScreenName() (string, error) {
+	myData, err := api.GetSelf(nil)
+	if err != nil {
+		return "", err
+	}
+
+	return myData.ScreenName, nil
+}
