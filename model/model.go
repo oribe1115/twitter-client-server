@@ -1,19 +1,17 @@
 package model
 
 import (
+	"errors"
 	"log"
 	"os"
-	"errors"
 
 	"github.com/ChimeraCoder/anaconda"
-	"github.com/garyburd/go-oauth/oauth"
-	"github.com/joho/godotenv"
 	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 )
 
 var (
-	api          *anaconda.TwitterApi
-	credentional *oauth.Credentials
+	api         *anaconda.TwitterApi
 	db          *gorm.DB
 	databaseURL string
 )
@@ -32,7 +30,6 @@ func GetTwitterAPI() {
 	api = anaconda.NewTwitterApi(os.Getenv("ACCESS_TOKEN"), os.Getenv("ACCESS_TOKEN_SECRET"))
 }
 
-
 // DBとの接続
 func EstablishConnection() (*gorm.DB, error) {
 	databaseURL = os.Getenv("DATABASE_URL")
@@ -43,4 +40,8 @@ func EstablishConnection() (*gorm.DB, error) {
 	db = _db
 
 	return db, nil
+}
+
+func SetAPI(apiInHandler *anaconda.TwitterApi) {
+	api = apiInHandler
 }

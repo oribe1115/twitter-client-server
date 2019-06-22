@@ -14,7 +14,6 @@ import (
 
 var (
 	credential   *oauth.Credentials
-	apiForCreditional *anaconda.TwitterApi
 	apiInHandler *anaconda.TwitterApi
 )
 
@@ -44,7 +43,6 @@ func GetAccessTokenHandler(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "faild to get access token")
 	}
 	apiInHandlerWithToken := anaconda.NewTwitterApiWithCredentials(tmpCred.Token, tmpCred.Secret, os.Getenv("CONSUMER_KEY"), os.Getenv("CONSUMER_SECRET"))
-	// apiInHandlerWithToken := anaconda.NewTwitterApi(tmpCred.Token, tmpCred.Secret)
 	model.SetAPI(apiInHandlerWithToken)
 
 	fmt.Println("success to get access token")
