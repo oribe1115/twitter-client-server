@@ -1,1 +1,1 @@
-web: bin/twitter-client-server
+web: ./bin/twitter-client-server
