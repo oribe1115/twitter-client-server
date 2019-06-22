@@ -83,6 +83,8 @@ func GetStampList(tweetId int64) ([]Stamp, error) {
 	// if err != nil {
 	// 	return nil, errors.New("faild to get stamp list")
 	// }
+	stamp := Stamp{}
+	stamplist[0] = stamp
 	return stamplist, nil
 
 }
