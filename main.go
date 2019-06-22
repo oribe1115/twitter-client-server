@@ -48,6 +48,10 @@ func main() {
 	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
 	e.GET("/create/table", handler.CreateTableHandler)
 
+	e.POST("/tweet/:tweetID/stamps/:stampID", handler.AddNewStampHandler)
+	e.GET("/tweet/:tweetID/stamps", handler.GetStampListHandler)
+	e.POST("/tweet/:tweetID/stamps/:stampID/destroy", handler.DeleteToStampHandler)
+
 	e.POST("tweet/new", handler.NewTweetPostHandler)
 
 	port := os.Getenv("PORT")
