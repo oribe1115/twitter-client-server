@@ -78,13 +78,21 @@ type Stamp struct {
 
 //スタンプのリストを取得する関数
 func GetStampList(tweetId int64) ([]Stamp, error) {
-	stamplist := []Stamp{}
+	stamplist := make([]Stamp, 0)
 	// err := db.Where("tweet_id = ?", tweetId).Select("*").Find(&stamplist).Error
 	// if err != nil {
 	// 	return nil, errors.New("faild to get stamp list")
 	// }
 	stamp := Stamp{}
-	stamplist[0] = stamp
+	stamp.StampID = "2764"
+	stamp.TweetID = 1142352382275096576
+	stamp.UserID = 987692432828477441
+	stamp.UserScreenName = "oribe1115"
+	stamp.Count = 0
+	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+	stamp.CreatedAt = time.Now().In(jst)
+	stamp.UpdatedAt = time.Now().In(jst)
+	stamplist = append(stamplist, stamp)
 	return stamplist, nil
 
 }
