@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"os"
 
@@ -13,13 +12,13 @@ import (
 )
 
 func main() {
-	database := os.Getenv("DATABASE_URL")
-	if database != "" {
-		_, err := model.EstablishConnection()
-		if err != nil {
-			log.Fatal("Cannot Connect to Database: %s", err)
-		}
-	}
+	// database := os.Getenv("DATABASE_URL")
+	// if database != "" {
+	// 	_, err := model.EstablishConnection()
+	// 	if err != nil {
+	// 		log.Fatal("Cannot Connect to Database: %s", err)
+	// 	}
+	// }
 
 	enviroment := os.Getenv("ENVIROMENT")
 	if enviroment == "" {
@@ -46,11 +45,11 @@ func main() {
 
 	e.GET("/authorize", handler.GetRequestTokenHandler)
 	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
-	e.GET("/create/table", handler.CreateTableHandler)
+	// e.GET("/create/table", handler.CreateTableHandler)
 
-	e.POST("/tweet/:tweetID/stamps/:stampID", handler.AddNewStampHandler)
+	// e.POST("/tweet/:tweetID/stamps/:stampID", handler.AddNewStampHandler)
 	e.GET("/tweet/:tweetID/stamps", handler.GetStampListHandler)
-	e.POST("/tweet/:tweetID/stamps/:stampID/destroy", handler.DeleteToStampHandler)
+	// e.POST("/tweet/:tweetID/stamps/:stampID/destroy", handler.DeleteToStampHandler)
 
 	e.POST("tweet/new", handler.NewTweetPostHandler)
 

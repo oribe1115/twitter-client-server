@@ -1,7 +1,6 @@
 package model
 
 import (
-	"errors"
 	"time"
 )
 
@@ -16,74 +15,74 @@ type Stamp struct {
 	UpdatedAt      time.Time `json:"updated_at"`       //最後に押した日時
 }
 
-func CreateTable() error {
-	err := db.CreateTable(&Stamp{}).Error
-	if err != nil {
-		return err
-	}
+// func CreateTable() error {
+// 	err := db.CreateTable(&Stamp{}).Error
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return err
-}
+// 	return err
+// }
 
-//スタンプを追加する関数
-func AddToStamp(tweetID int64, stampID string) (Stamp, error) {
-	userID, _ := TellMyUserId()
-	userScreenName, _ := TellMyScreenName()
-	var checkCount int
-	checkStamp := Stamp{}
-	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ? And user_screen_name = ?", stampID, tweetID, userID, userScreenName).First(&checkStamp).Count(&checkCount)
+// //スタンプを追加する関数
+// func AddToStamp(tweetID int64, stampID string) (Stamp, error) {
+// 	userID, _ := TellMyUserId()
+// 	userScreenName, _ := TellMyScreenName()
+// 	var checkCount int
+// 	checkStamp := Stamp{}
+// 	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ? And user_screen_name = ?", stampID, tweetID, userID, userScreenName).First(&checkStamp).Count(&checkCount)
 
-	//既に押してあるか押してないかで分岐
-	if checkCount == 0 {
-		//新しく追加されるスタンプレコードの作成
-		newStamp := Stamp{}
-		newStamp.StampID = stampID
-		newStamp.TweetID = tweetID
-		newStamp.UserID, _ = TellMyUserId()
-		newStamp.UserScreenName, _ = TellMyScreenName()
-		newStamp.Count = 1
-		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
-		newStamp.CreatedAt = time.Now().In(jst)
-		newStamp.UpdatedAt = time.Now().In(jst)
+// 	//既に押してあるか押してないかで分岐
+// 	if checkCount == 0 {
+// 		//新しく追加されるスタンプレコードの作成
+// 		newStamp := Stamp{}
+// 		newStamp.StampID = stampID
+// 		newStamp.TweetID = tweetID
+// 		newStamp.UserID, _ = TellMyUserId()
+// 		newStamp.UserScreenName, _ = TellMyScreenName()
+// 		newStamp.Count = 1
+// 		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+// 		newStamp.CreatedAt = time.Now().In(jst)
+// 		newStamp.UpdatedAt = time.Now().In(jst)
 
-		//DBにデータを挿入
-		err := db.Table("stamps").Create(&newStamp).Error
-		if err != nil {
-			return newStamp, errors.New("faild to add task")
-		}
+// 		//DBにデータを挿入
+// 		err := db.Table("stamps").Create(&newStamp).Error
+// 		if err != nil {
+// 			return newStamp, errors.New("faild to add task")
+// 		}
 
-		return newStamp, nil
+// 		return newStamp, nil
 
-	}
-	//countを1増やす
-	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
-	checkStamp.UpdatedAt = time.Now().In(jst)
-	checkStamp.Count++
-	db.Save(&checkStamp)
-	return checkStamp, nil
+// 	}
+// 	//countを1増やす
+// 	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+// 	checkStamp.UpdatedAt = time.Now().In(jst)
+// 	checkStamp.Count++
+// 	db.Save(&checkStamp)
+// 	return checkStamp, nil
 
-}
+// }
 
-//スタンプを削除する関数
-func DeleteToStamp(tweetID int64, stampID string) error {
-	userID, _ := TellMyUserId()
-	var stamp Stamp
-	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ?", stampID, tweetID, userID).First(&stamp)
-	err := db.Delete(&stamp).Error
-	if err != nil {
-		return errors.New("faild to delete stamp list")
-	}
-	return nil
+// //スタンプを削除する関数
+// func DeleteToStamp(tweetID int64, stampID string) error {
+// 	userID, _ := TellMyUserId()
+// 	var stamp Stamp
+// 	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ?", stampID, tweetID, userID).First(&stamp)
+// 	err := db.Delete(&stamp).Error
+// 	if err != nil {
+// 		return errors.New("faild to delete stamp list")
+// 	}
+// 	return nil
 
-}
+// }
 
 //スタンプのリストを取得する関数
 func GetStampList(tweetId int64) ([]Stamp, error) {
 	stamplist := []Stamp{}
-	err := db.Where("tweet_id = ?", tweetId).Select("*").Find(&stamplist).Error
-	if err != nil {
-		return nil, errors.New("faild to get stamp list")
-	}
+	// err := db.Where("tweet_id = ?", tweetId).Select("*").Find(&stamplist).Error
+	// if err != nil {
+	// 	return nil, errors.New("faild to get stamp list")
+	// }
 	return stamplist, nil
 
 }
