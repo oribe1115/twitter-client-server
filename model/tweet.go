@@ -9,6 +9,7 @@ type NewTweet struct {
 	Text string `json:"text,omitempty"`
 }
 
+// スタンプ情報付きツイート情報
 type StampTweet struct {
 	Tweet anaconda.Tweet
 	Stamp
