@@ -45,6 +45,7 @@ func main() {
 
 	e.GET("/authorize", handler.GetRequestTokenHandler)
 	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
+
 	// e.GET("/create/table", handler.CreateTableHandler)
 
 	// e.POST("/tweet/:tweetID/stamps/:stampID", handler.AddNewStampHandler)
