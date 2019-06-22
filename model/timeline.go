@@ -14,4 +14,11 @@ func GetHomeTimeline(count int) ([]StampTweet, error) {
 		return nil, err
 	}
 
+	stampTweetList, err := MakeStampTweet(tweetList)
+	if err != nil {
+		return nil, err
+	}
+
+	return stampTweetList, nil
+
 }
