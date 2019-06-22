@@ -25,12 +25,12 @@ func createTable() error {
 	return err
 }
 
-func AddToStamp(tweetId int64, stampID string) error {
+func AddToStamp(tweetId int64, stampID string) (Stamp, error) {
 	userId := TellMyUserId()
 	userScreenName := TellMyScreenName()
 	var checkCount int
 	var checkStamp Stamp{}
-	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ? And user_screen_name = ?", "stampID","tweetID","userId","userScreenName").First(&checkStamp).Count(&checkCount)
+	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ? And user_screen_name = ?", stampID,tweetID,userId,userScreenName).First(&checkStamp).Count(&checkCount)
 
 	
 	//既に押してあるか押してないかで分岐
@@ -49,10 +49,10 @@ func AddToStamp(tweetId int64, stampID string) error {
 		//DBにデータを挿入
 		err := db.Table(stamps).Create(&newStamp).Error
 		if err != nil {
-			return errors.New("faild to add task")
+			return newStamp, errors.New("faild to add task")
 		}
 
-		return nil
+		return newStamp, nil,
 
 	} else {
 		//countを1増やす
@@ -74,5 +74,5 @@ func AddToStamp(tweetId int64, stampID string) error {
 }
 
 func DeleteToStamp(tweetId int64, stampID string) error {
-
+	
 }
