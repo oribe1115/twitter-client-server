@@ -34,7 +34,9 @@ func AddNewStampHandler(c echo.Context) error {
 	}
 	tweetData := model.StampTweet{}
 	tweetData.Tweet = tweet
-	tweetData.Stamp = stamp
+	stampList := make([]model.Stamp, 0)
+	stampList = append(stampList, stamp)
+	tweetData.Stamp = stampList
 
 	return c.JSON(http.StatusOK, tweetData)
 }
