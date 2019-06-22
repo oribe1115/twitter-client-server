@@ -1,16 +1,15 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"os"
-	"log"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
-	"github.com/oribe1115/twitter-client-server/model"
 	"github.com/oribe1115/twitter-client-server/handler"
-
+	"github.com/oribe1115/twitter-client-server/model"
 )
 
 func main() {
@@ -42,9 +41,10 @@ func main() {
 		return c.String(http.StatusOK, "HelloWorld")
 	})
 
+	e.GET("/user/me", handler.TellMeHandler)
+
 	e.GET("/authorize", handler.GetRequestTokenHandler)
 	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
-
 
 	port := os.Getenv("PORT")
 	if port == "" {
