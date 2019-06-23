@@ -31,10 +31,11 @@ func main() {
 	}
 
 	e := echo.New()
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"http://localhost:8080"},
-		AllowCredentials: true,
-	}))
+	// e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	// 	AllowOrigins:     []string{"http://localhost:8080"},
+	// 	AllowCredentials: true,
+	// }))
+	e.Use(middleware.CORS())
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "HelloWorld")
