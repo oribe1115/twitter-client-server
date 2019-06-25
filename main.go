@@ -13,17 +13,17 @@ import (
 )
 
 func main() {
+	enviroment := os.Getenv("ENVIROMENT")
+	if enviroment == "" {
+		model.LoadEnv()
+	}
+
 	database := os.Getenv("DATABASE_URL")
 	if database != "" {
 		_, err := model.EstablishConnection()
 		if err != nil {
 			log.Fatal("Cannot Connect to Database: %s", err)
 		}
-	}
-
-	enviroment := os.Getenv("ENVIROMENT")
-	if enviroment == "" {
-		model.LoadEnv()
 	}
 
 	token := os.Getenv("ACCESS_TOKEN")
