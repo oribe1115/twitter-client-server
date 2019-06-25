@@ -32,10 +32,11 @@ func main() {
 	}
 
 	e := echo.New()
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"http://localhost:8080"},
-		AllowCredentials: true,
-	}))
+	e.Use(middleware.CORS())
+	// e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	// 	AllowOrigins:     []string{"http://localhost:8080"},
+	// 	AllowCredentials: true,
+	// }))
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "HelloWorld")
@@ -46,7 +47,7 @@ func main() {
 
 	e.GET("/authorize", handler.GetRequestTokenHandler)
 	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
-	e.GET("/create/table", handler.CreateTableHandler)
+	// e.GET("/create/table", handler.CreateTableHandler)
 
 	e.POST("/tweet/:tweetID/stamps/:stampID", handler.AddNewStampHandler)
 	e.GET("/tweet/:tweetID/stamps", handler.GetStampListHandler)
