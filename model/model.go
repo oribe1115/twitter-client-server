@@ -24,13 +24,6 @@ func LoadEnv() {
 	}
 }
 
-// Twitter Apiのためのkeyなどをセットする
-func GetTwitterAPI() {
-	anaconda.SetConsumerKey(os.Getenv("CONSUMER_KEY"))
-	anaconda.SetConsumerSecret(os.Getenv("CONSUMER_SECRET"))
-	api = anaconda.NewTwitterApi(os.Getenv("ACCESS_TOKEN"), os.Getenv("ACCESS_TOKEN_SECRET"))
-}
-
 // DBとの接続
 func EstablishConnection() (*gorm.DB, error) {
 	databaseURL = os.Getenv("DATABASE_URL")
@@ -41,8 +34,4 @@ func EstablishConnection() (*gorm.DB, error) {
 	db = _db
 
 	return db, nil
-}
-
-func SetAPI(apiInHandler *anaconda.TwitterApi) {
-	api = apiInHandler
 }
