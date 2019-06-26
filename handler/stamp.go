@@ -9,56 +9,69 @@ import (
 	"github.com/oribe1115/twitter-client-server/model"
 )
 
+// 新規のテーブルstampsを作成する
 func CreateTableHandler(c echo.Context) error {
 	err := model.CreateTable()
 
 	if err != nil {
+		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild to craete table\n")
 	}
+
 	return c.String(http.StatusCreated, "tasks table created!\n")
 }
 
 // スタンプを追加する
 func AddNewStampHandler(c echo.Context) error {
-	tweetid, _ := strconv.ParseInt(c.Param("tweetID"), 10, 64)
-	stampid := c.Param("stampID")
-	stamp, err := model.AddToStamp(tweetid, stampid)
+	tweetIDStr := c.Param("tweetID")
+	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
+	stampID := c.Param("stampID")
+	stamp, err := model.AddStamp(tweetID, stampID)
+
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild to add stamp")
 	}
-	tweet, err := model.GetJustTweet(tweetid)
+
+	tweet, err := model.GetJustTweet(tweetID)
+
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild get tweet")
 	}
-	tweetData := model.StampTweet{}
-	tweetData.Tweet = tweet
+
+	stampTweet := model.StampTweet{}
+	stampTweet.Tweet = tweet
 	stampList := make([]model.Stamp, 0)
 	stampList = append(stampList, stamp)
-	tweetData.Stamp = stampList
+	stampTweet.Stamp = stampList
 
-	return c.JSON(http.StatusOK, tweetData)
+	return c.JSON(http.StatusOK, stampTweet)
 }
 
 func GetStampListHandler(c echo.Context) error {
-	tweetid, _ := strconv.ParseInt(c.Param("tweetID"), 10, 64)
-	stamplist, err := model.GetStampList(tweetid)
+	tweetIDStr := c.Param("tweetID")
+	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
+	stampList, err := model.GetStampList(tweetID)
+
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild to get stamp list")
 	}
 
-	return c.JSON(http.StatusOK, stamplist)
+	return c.JSON(http.StatusOK, stampList)
 }
 
 func DeleteToStampHandler(c echo.Context) error {
-	tweetid, _ := strconv.ParseInt(c.Param("tweetID"), 10, 64)
-	stampid := c.Param("stampID")
-	err := model.DeleteToStamp(tweetid, stampid)
+	tweetIDStr := c.Param("tweetID")
+	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
+	stampID := c.Param("stampID")
+	err := model.DeleteStamp(tweetID, stampID)
+
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild to delete stamp")
 	}
+
 	return c.String(http.StatusOK, "stamp is updated")
 }

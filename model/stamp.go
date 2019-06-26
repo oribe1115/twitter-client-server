@@ -25,7 +25,7 @@ func CreateTable() error {
 }
 
 //スタンプを追加する関数
-func AddToStamp(tweetID int64, stampID string) (Stamp, error) {
+func AddStamp(tweetID int64, stampID string) (Stamp, error) {
 	var checkCount int
 
 	userID, _ := TellMyUserId()
@@ -63,7 +63,7 @@ func AddToStamp(tweetID int64, stampID string) (Stamp, error) {
 }
 
 //スタンプを削除する関数
-func DeleteToStamp(tweetID int64, stampID string) error {
+func DeleteStamp(tweetID int64, stampID string) error {
 	userID, _ := TellMyUserId()
 	stamp := Stamp{}
 
