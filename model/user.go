@@ -10,9 +10,9 @@ type MyUserDataToCheck struct {
 	User  anaconda.User
 }
 
-func TellMe() (MyUserDataToCheck, error) {
+func TellMe(testApi *anaconda.TwitterApi) (MyUserDataToCheck, error) {
 	myDataToCheck := MyUserDataToCheck{}
-	myData, err := api.GetSelf(nil)
+	myData, err := testApi.GetSelf(nil)
 
 	if err != nil {
 		myDataToCheck.Login = false

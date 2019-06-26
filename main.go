@@ -47,7 +47,12 @@ func main() {
 		return c.String(http.StatusOK, "HelloWorld")
 	})
 
-	e.GET("/user/me", handler.TellMeHandler)
+	withTwitter := e.Group("")
+	withTwitter.Use(handler.CheckAuthorize)
+
+	withTwitter.GET("/user/me", handler.TellMeHandler)
+
+	// e.GET("/user/me", handler.TellMeHandler)
 	e.GET("user/:userScreenName", handler.TellOtherUserData)
 
 	e.GET("/authorize", handler.GetRequestTokenHandler)

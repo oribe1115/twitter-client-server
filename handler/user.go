@@ -10,7 +10,8 @@ import (
 )
 
 func TellMeHandler(c echo.Context) error {
-	myDataToCheck, err := model.TellMe()
+	testApi := model.ApiFromContext(c)
+	myDataToCheck, err := model.TellMe(testApi)
 
 	if err != nil {
 		fmt.Println(err)
