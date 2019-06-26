@@ -31,6 +31,11 @@ func main() {
 		model.GetTwitterAPI()
 	}
 
+	_, err := model.StoreForSession()
+	if err != nil {
+		log.Fatal("faild at session: %s", err)
+	}
+
 	e := echo.New()
 	e.Use(middleware.CORS())
 	// e.Use(middleware.CORSWithConfig(middleware.CORSConfig{

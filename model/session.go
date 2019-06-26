@@ -9,7 +9,7 @@ var (
 )
 
 // セッションを作成
-func storeForSession() (*pgstore.PGStore, error) {
+func StoreForSession() (*pgstore.PGStore, error) {
 	_store, err := pgstore.NewPGStore(databaseURL, []byte("secret-key"))
 
 	if err != nil {
