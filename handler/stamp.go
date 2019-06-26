@@ -73,5 +73,5 @@ func DeleteToStampHandler(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "faild to delete stamp")
 	}
 
-	return c.String(http.StatusOK, "stamp is updated")
+	return c.String(http.StatusOK, "stamp is deleted")
 }
