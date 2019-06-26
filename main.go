@@ -26,10 +26,10 @@ func main() {
 		}
 	}
 
-	token := os.Getenv("ACCESS_TOKEN")
-	if token != "" {
-		model.GetTwitterAPI()
-	}
+	// token := os.Getenv("ACCESS_TOKEN")
+	// if token != "" {
+	// 	model.GetTwitterAPI()
+	// }
 
 	_, err := model.StoreForSession()
 	if err != nil {

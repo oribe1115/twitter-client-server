@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/ChimeraCoder/anaconda"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/labstack/echo"
 )
 
 // Twitter Apiのためのkeyなどをセットする
@@ -16,4 +16,13 @@ func GetTwitterAPI() {
 
 func SetAPI(apiInHandler *anaconda.TwitterApi) {
 	api = apiInHandler
+}
+
+func ApiFromContext(c echo.Context) *anaconda.TwitterApi {
+	token := c.Get("ACCESS_TOKEN").(string)
+	secret := c.Get("ACCESS_TOKEN_SECRET").(string)
+
+	api := anaconda.NewTwitterApiWithCredentials(token, secret, os.Getenv("CONSUMER_KEY"), os.Getenv("CONSUMER_SECRET"))
+
+	return api
 }
