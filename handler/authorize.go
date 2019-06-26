@@ -55,6 +55,22 @@ func GetAccessTokenHandler(c echo.Context) error {
 	apiInHandlerWithToken := anaconda.NewTwitterApiWithCredentials(tmpCred.Token, tmpCred.Secret, os.Getenv("CONSUMER_KEY"), os.Getenv("CONSUMER_SECRET"))
 	model.SetAPI(apiInHandlerWithToken)
 
+	session, err := model.Store.Get(c.Request(), "session-key")
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "faild to get session")
+	}
+
+	session.Values["ACCESS_TOKEN"] = tmpCred.Token
+	session.Values["ACCESS_TOKEN_SECRET"] = tmpCred.Secret
+
+	err = session.Save(c.Request(), c.Response().Writer)
+
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "faild to save session")
+	}
+
 	fmt.Println("success to get access token")
 	return c.String(http.StatusOK, "success to get access token")
 }

@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	store *pgstore.PGStore
+	Store *pgstore.PGStore
 )
 
 // セッションを作成
@@ -15,7 +15,7 @@ func storeForSession() (*pgstore.PGStore, error) {
 	if err != nil {
 		return nil, err
 	}
-	store = _store
+	Store = _store
 
-	return store, nil
+	return Store, nil
 }
