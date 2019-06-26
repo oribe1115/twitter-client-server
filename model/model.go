@@ -1,7 +1,6 @@
 package model
 
 import (
-	"errors"
 	"log"
 	"os"
 
@@ -29,7 +28,7 @@ func EstablishConnection() (*gorm.DB, error) {
 	databaseURL = os.Getenv("DATABASE_URL")
 	_db, err := gorm.Open("postgres", databaseURL)
 	if err != nil {
-		return nil, errors.New("faild to connect to DB")
+		return nil, err
 	}
 	db = _db
 
