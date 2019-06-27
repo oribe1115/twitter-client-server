@@ -4,15 +4,9 @@ go 1.12
 
 require (
 	github.com/ChimeraCoder/anaconda v2.0.0+incompatible
-<<<<<<< HEAD
 	github.com/antonlindstrom/pgstore v0.0.0-20170604072116-a407030ba6d0 // indirect
 	github.com/garyburd/go-oauth v0.0.0-20180319155456-bca2e7f09a17
 	github.com/gorilla/sessions v1.1.3 // indirect
-=======
-	github.com/antonlindstrom/pgstore v0.0.0-20170604072116-a407030ba6d0
-	github.com/garyburd/go-oauth v0.0.0-20180319155456-bca2e7f09a17
-	github.com/gorilla/sessions v1.1.3
->>>>>>> session
 	github.com/jinzhu/gorm v1.9.9
 	github.com/joho/godotenv v1.3.0
 	github.com/labstack/echo v3.3.10+incompatible
