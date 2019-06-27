@@ -37,7 +37,7 @@ func RetweetHandler(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-		return c.String(http.StatusInternalServerError, "faild to retweet")
+		return c.String(http.StatusInternalServerError, "faild to unretweet")
 	}
 
 	return c.JSON(http.StatusOK, stampTweet)

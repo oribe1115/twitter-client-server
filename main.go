@@ -62,6 +62,8 @@ func main() {
 	withTwitter.POST("/tweet/:tweetID/stamps/:stampID/destroy", handler.DeleteToStampHandler)
 
 	withTwitter.POST("tweet/new", handler.NewTweetPostHandler)
+	withTwitter.POST("/tweet/:tweetID/retweet", handler.RetweetHandler)
+	withTwitter.POST("/tweet/:tweetID/unretweet", handler.UnretweetHandler)
 
 	withTwitter.GET("/statuses/home_timeline", handler.GetHomeTimelineHandler)
 	withTwitter.GET("/lists/list", handler.GetListsHandler)
