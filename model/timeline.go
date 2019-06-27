@@ -3,9 +3,11 @@ package model
 import (
 	"net/url"
 	"strconv"
+
+	"github.com/ChimeraCoder/anaconda"
 )
 
-func GetHomeTimeline(count int) ([]StampTweet, error) {
+func GetHomeTimeline(api *anaconda.TwitterApi, count int) ([]StampTweet, error) {
 	v := url.Values{}
 	v.Set("count", strconv.Itoa(count))
 
@@ -24,7 +26,7 @@ func GetHomeTimeline(count int) ([]StampTweet, error) {
 }
 
 // 変換の都合上、userIDをstringのままで
-func GetUserTimeline(userID string, count int) ([]StampTweet, error) {
+func GetUserTimeline(api *anaconda.TwitterApi, userID string, count int) ([]StampTweet, error) {
 	v := url.Values{}
 	v.Set("count", strconv.Itoa(count))
 	v.Set("user_id", userID)

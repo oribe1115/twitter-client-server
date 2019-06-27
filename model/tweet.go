@@ -16,10 +16,14 @@ type StampTweet struct {
 }
 
 // 新規ツイートを投稿
-func PostNewTweet(newTweet NewTweet) (StampTweet, error) {
+// あとでstampのデフォルトデータを追加
+func PostNewTweet(api *anaconda.TwitterApi, newTweet NewTweet) (StampTweet, error) {
 	tweet, err := api.PostTweet(newTweet.Text, nil)
-	stampTweet := StampTweet{}
-	stampTweet.Tweet = tweet
+
+	stampTweet := StampTweet{
+		Tweet: tweet,
+	}
+
 	if err != nil {
 		return stampTweet, err
 	}
@@ -27,10 +31,12 @@ func PostNewTweet(newTweet NewTweet) (StampTweet, error) {
 	return stampTweet, nil
 }
 
-func GetJustTweet(tweetID int64) (anaconda.Tweet, error) {
+func GetJustTweet(api *anaconda.TwitterApi, tweetID int64) (anaconda.Tweet, error) {
 	tweet, err := api.GetTweet(tweetID, nil)
+
 	if err != nil {
 		return tweet, err
 	}
+
 	return tweet, nil
 }

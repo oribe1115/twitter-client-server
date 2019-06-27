@@ -10,12 +10,14 @@ import (
 )
 
 func GetHomeTimelineHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
 	countStr := c.QueryParam("count")
 	if countStr == "" {
 		countStr = "20"
 	}
 	count, _ := strconv.Atoi(countStr)
-	homeTimeline, err := model.GetHomeTimeline(count)
+	homeTimeline, err := model.GetHomeTimeline(api, count)
 
 	if err != nil {
 		fmt.Println(err)
@@ -26,6 +28,8 @@ func GetHomeTimelineHandler(c echo.Context) error {
 }
 
 func GetUserTimelineHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
 	countStr := c.QueryParam("count")
 	if countStr == "" {
 		countStr = "20"
@@ -34,7 +38,7 @@ func GetUserTimelineHandler(c echo.Context) error {
 
 	userID := c.Param("userID")
 
-	stampTweetList, err := model.GetUserTimeline(userID, count)
+	stampTweetList, err := model.GetUserTimeline(api, userID, count)
 
 	if err != nil {
 		fmt.Println(err)

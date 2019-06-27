@@ -1,18 +1,15 @@
 package model
 
 import (
-	"errors"
 	"log"
 	"os"
 
-	"github.com/ChimeraCoder/anaconda"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
 )
 
 var (
-	api         *anaconda.TwitterApi
 	db          *gorm.DB
 	databaseURL string
 )
@@ -24,25 +21,14 @@ func LoadEnv() {
 	}
 }
 
-// Twitter Apiのためのkeyなどをセットする
-func GetTwitterAPI() {
-	anaconda.SetConsumerKey(os.Getenv("CONSUMER_KEY"))
-	anaconda.SetConsumerSecret(os.Getenv("CONSUMER_SECRET"))
-	api = anaconda.NewTwitterApi(os.Getenv("ACCESS_TOKEN"), os.Getenv("ACCESS_TOKEN_SECRET"))
-}
-
 // DBとの接続
 func EstablishConnection() (*gorm.DB, error) {
 	databaseURL = os.Getenv("DATABASE_URL")
 	_db, err := gorm.Open("postgres", databaseURL)
 	if err != nil {
-		return nil, errors.New("faild to connect to DB")
+		return nil, err
 	}
 	db = _db
 
 	return db, nil
-}
-
-func SetAPI(apiInHandler *anaconda.TwitterApi) {
-	api = apiInHandler
 }

@@ -10,7 +10,8 @@ import (
 )
 
 func TellMeHandler(c echo.Context) error {
-	myDataToCheck, err := model.TellMe()
+	api := model.ApiFromContext(c)
+	myDataToCheck, err := model.TellMe(api)
 
 	if err != nil {
 		fmt.Println(err)
@@ -21,8 +22,10 @@ func TellMeHandler(c echo.Context) error {
 }
 
 func TellOtherUserData(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
 	userScreenName := c.Param("userScreenName")
-	userData, err := model.TellOtherUserData(userScreenName)
+	userData, err := model.TellOtherUserData(api, userScreenName)
 
 	if err != nil {
 		fmt.Println(err)

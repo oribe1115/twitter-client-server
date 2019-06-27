@@ -23,17 +23,19 @@ func CreateTableHandler(c echo.Context) error {
 
 // スタンプを追加する
 func AddNewStampHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
 	tweetIDStr := c.Param("tweetID")
 	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
 	stampID := c.Param("stampID")
-	stamp, err := model.AddStamp(tweetID, stampID)
+	stamp, err := model.AddStamp(api, tweetID, stampID)
 
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild to add stamp")
 	}
 
-	tweet, err := model.GetJustTweet(tweetID)
+	tweet, err := model.GetJustTweet(api, tweetID)
 
 	if err != nil {
 		fmt.Println(err)
@@ -63,10 +65,12 @@ func GetStampListHandler(c echo.Context) error {
 }
 
 func DeleteToStampHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
 	tweetIDStr := c.Param("tweetID")
 	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
 	stampID := c.Param("stampID")
-	err := model.DeleteStamp(tweetID, stampID)
+	err := model.DeleteStamp(api, tweetID, stampID)
 
 	if err != nil {
 		fmt.Println(err)

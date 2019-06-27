@@ -10,7 +10,9 @@ import (
 )
 
 func GetListsHandler(c echo.Context) error {
-	lists, err := model.GetLists()
+	api := model.ApiFromContext(c)
+
+	lists, err := model.GetLists(api)
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild to get lists")
@@ -19,6 +21,8 @@ func GetListsHandler(c echo.Context) error {
 }
 
 func GetListStatusesHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
 	listID, _ := strconv.ParseInt(c.Param("listID"), 10, 64)
 	countStr := c.QueryParam("count")
 	if countStr == "" {
@@ -26,7 +30,7 @@ func GetListStatusesHandler(c echo.Context) error {
 	}
 	count, _ := strconv.Atoi(countStr)
 
-	listStatuses, err := model.GetListStatuses(listID, count)
+	listStatuses, err := model.GetListStatuses(api, listID, count)
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "faild to get list statuses")
