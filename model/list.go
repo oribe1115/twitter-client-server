@@ -7,8 +7,9 @@ import (
 	"github.com/ChimeraCoder/anaconda"
 )
 
-func GetLists() ([]anaconda.List, error) {
-	id, err := TellMyUserId()
+func GetLists(api *anaconda.TwitterApi) ([]anaconda.List, error) {
+	user, err := api.GetSelf(nil)
+	id := user.Id
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +20,7 @@ func GetLists() ([]anaconda.List, error) {
 	return lists, nil
 }
 
-func GetListStatuses(listID int64, count int) ([]StampTweet, error) {
+func GetListStatuses(api *anaconda.TwitterApi, listID int64, count int) ([]StampTweet, error) {
 	v := url.Values{}
 	v.Set("count", strconv.Itoa(count))
 

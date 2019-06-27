@@ -2,6 +2,8 @@ package model
 
 import (
 	"time"
+
+	"github.com/ChimeraCoder/anaconda"
 )
 
 //スタンプの構造体
@@ -25,25 +27,27 @@ func CreateTable() error {
 }
 
 //スタンプを追加する関数
-func AddStamp(tweetID int64, stampID string) (Stamp, error) {
+func AddStamp(api *anaconda.TwitterApi, tweetID int64, stampID string) (Stamp, error) {
 	var checkCount int
 
-	userID, _ := TellMyUserId()
+	user, _ := api.GetSelf(nil)
+	userID := user.Id
 
 	checkStamp := Stamp{}
 	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ?", stampID, tweetID, userID).First(&checkStamp).Count(&checkCount)
 
-	if checkCount == 0 {
-		newStamp := Stamp{}
-		newStamp.StampID = stampID
-		newStamp.TweetID = tweetID
-		newStamp.UserID, _ = TellMyUserId()
-		newStamp.UserScreenName, _ = TellMyScreenName()
-		newStamp.Count = 1
+	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
 
-		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
-		newStamp.CreatedAt = time.Now().In(jst)
-		newStamp.UpdatedAt = time.Now().In(jst)
+	if checkCount == 0 {
+		newStamp := Stamp{
+			StampID:        stampID,
+			TweetID:        tweetID,
+			UserID:         userID,
+			UserScreenName: user.ScreenName,
+			Count:          1,
+			CreatedAt:      time.Now().In(jst),
+			UpdatedAt:      time.Now().In(jst),
+		}
 
 		err := db.Table("stamps").Create(&newStamp).Error
 		if err != nil {
@@ -54,7 +58,6 @@ func AddStamp(tweetID int64, stampID string) (Stamp, error) {
 
 	}
 
-	jst := time.FixedZone("Asia/Tokyo", 9*60*60)
 	checkStamp.UpdatedAt = time.Now().In(jst)
 	checkStamp.Count++
 	db.Save(&checkStamp)
@@ -63,8 +66,9 @@ func AddStamp(tweetID int64, stampID string) (Stamp, error) {
 }
 
 //スタンプを削除する関数
-func DeleteStamp(tweetID int64, stampID string) error {
-	userID, _ := TellMyUserId()
+func DeleteStamp(api *anaconda.TwitterApi, tweetID int64, stampID string) error {
+	user, _ := api.GetSelf(nil)
+	userID := user.Id
 	stamp := Stamp{}
 
 	db.Where("stamp_id = ? AND tweet_id = ? AND user_id = ?", stampID, tweetID, userID).First(&stamp)

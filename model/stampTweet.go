@@ -13,11 +13,13 @@ func MakeStampTweet(tweetList []anaconda.Tweet) ([]StampTweet, error) {
 		if err != nil {
 			return nil, err
 		}
-		stampTweet := StampTweet{}
-		stampTweet.Tweet = tweet
-		stampTweet.Stamp = stampList
-		stampTweetList = append(stampTweetList, stampTweet)
 
+		stampTweet := StampTweet{
+			Tweet: tweet,
+			Stamp: stampList,
+		}
+
+		stampTweetList = append(stampTweetList, stampTweet)
 	}
 
 	return stampTweetList, nil

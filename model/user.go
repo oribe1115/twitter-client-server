@@ -24,25 +24,7 @@ func TellMe(testApi *anaconda.TwitterApi) (MyUserDataToCheck, error) {
 	return myDataToCheck, nil
 }
 
-func TellMyUserId() (int64, error) {
-	myData, err := api.GetSelf(nil)
-	if err != nil {
-		return 0, err
-	}
-
-	return myData.Id, nil
-}
-
-func TellMyScreenName() (string, error) {
-	myData, err := api.GetSelf(nil)
-	if err != nil {
-		return "", err
-	}
-
-	return myData.ScreenName, nil
-}
-
-func TellOtherUserData(userScreenName string) (anaconda.User, error) {
+func TellOtherUserData(api *anaconda.TwitterApi, userScreenName string) (anaconda.User, error) {
 	userData, err := api.GetUsersShow(userScreenName, nil)
 	if err != nil {
 		return userData, err
@@ -50,5 +32,3 @@ func TellOtherUserData(userScreenName string) (anaconda.User, error) {
 
 	return userData, nil
 }
-
-//

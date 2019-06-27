@@ -11,10 +11,12 @@ import (
 
 // 新規ツイートを投稿
 func NewTweetPostHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
 	newTweet := model.NewTweet{}
 	c.Bind(&newTweet)
 
-	stampTweet, err := model.PostNewTweet(newTweet)
+	stampTweet, err := model.PostNewTweet(api, newTweet)
 
 	if err != nil {
 		fmt.Println(err)

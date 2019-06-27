@@ -4,14 +4,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/ChimeraCoder/anaconda"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
 )
 
 var (
-	api         *anaconda.TwitterApi
 	db          *gorm.DB
 	databaseURL string
 )

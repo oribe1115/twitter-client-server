@@ -46,29 +46,27 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "HelloWorld")
 	})
+	// e.GET("/create/table", handler.CreateTableHandler)
 
 	withTwitter := e.Group("")
 	withTwitter.Use(handler.CheckAuthorize)
 
 	withTwitter.GET("/user/me", handler.TellMeHandler)
+	withTwitter.GET("user/:userScreenName", handler.TellOtherUserData)
 
-	// e.GET("/user/me", handler.TellMeHandler)
-	e.GET("user/:userScreenName", handler.TellOtherUserData)
+	withTwitter.GET("/authorize", handler.GetRequestTokenHandler)
+	withTwitter.GET("/authorize/callback", handler.GetAccessTokenHandler)
 
-	e.GET("/authorize", handler.GetRequestTokenHandler)
-	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
-	// e.GET("/create/table", handler.CreateTableHandler)
+	withTwitter.POST("/tweet/:tweetID/stamps/:stampID", handler.AddNewStampHandler)
+	withTwitter.GET("/tweet/:tweetID/stamps", handler.GetStampListHandler)
+	withTwitter.POST("/tweet/:tweetID/stamps/:stampID/destroy", handler.DeleteToStampHandler)
 
-	e.POST("/tweet/:tweetID/stamps/:stampID", handler.AddNewStampHandler)
-	e.GET("/tweet/:tweetID/stamps", handler.GetStampListHandler)
-	e.POST("/tweet/:tweetID/stamps/:stampID/destroy", handler.DeleteToStampHandler)
+	withTwitter.POST("tweet/new", handler.NewTweetPostHandler)
 
-	e.POST("tweet/new", handler.NewTweetPostHandler)
-
-	e.GET("/statuses/home_timeline", handler.GetHomeTimelineHandler)
-	e.GET("/lists/list", handler.GetListsHandler)
-	e.GET("/lists/:listID/statuses", handler.GetListStatusesHandler)
-	e.GET("/statuses/:userID", handler.GetUserTimelineHandler)
+	withTwitter.GET("/statuses/home_timeline", handler.GetHomeTimelineHandler)
+	withTwitter.GET("/lists/list", handler.GetListsHandler)
+	withTwitter.GET("/lists/:listID/statuses", handler.GetListStatusesHandler)
+	withTwitter.GET("/statuses/:userID", handler.GetUserTimelineHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
