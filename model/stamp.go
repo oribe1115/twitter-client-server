@@ -83,11 +83,30 @@ func DeleteStamp(api *anaconda.TwitterApi, tweetID int64, stampID string) error 
 
 //スタンプのリストを取得する関数
 func GetStampList(tweetID int64) ([]Stamp, error) {
+	var count int
 	stampList := []Stamp{}
-	err := db.Where("tweet_id = ?", tweetID).Select("*").Find(&stampList).Error
+	err := db.Where("tweet_id = ?", tweetID).Select("*").Find(&stampList).Count(&count).Error
 
 	if err != nil {
 		return nil, err
+	}
+
+	if count == 0 {
+		jst := time.FixedZone("Asia/Tokyo", 9*60*60)
+
+		dummyStamp := Stamp{
+			StampID:        "2764",
+			TweetID:        tweetID,
+			UserID:         1136911950137290754,
+			UserScreenName: "hackathon19spr1",
+			Count:          0,
+			CreatedAt:      time.Now().In(jst),
+			UpdatedAt:      time.Now().In(jst),
+		}
+
+		dummyStampList := make([]Stamp, 0)
+		dummyStampList = append(dummyStampList, dummyStamp)
+		return dummyStampList, nil
 	}
 
 	return stampList, nil
