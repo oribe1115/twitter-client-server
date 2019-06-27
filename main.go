@@ -48,14 +48,14 @@ func main() {
 	})
 	// e.GET("/create/table", handler.CreateTableHandler)
 
+	e.GET("/authorize", handler.GetRequestTokenHandler)
+	e.GET("/authorize/callback", handler.GetAccessTokenHandler)
+
 	withTwitter := e.Group("")
 	withTwitter.Use(handler.CheckAuthorize)
 
 	withTwitter.GET("/user/me", handler.TellMeHandler)
 	withTwitter.GET("user/:userScreenName", handler.TellOtherUserData)
-
-	withTwitter.GET("/authorize", handler.GetRequestTokenHandler)
-	withTwitter.GET("/authorize/callback", handler.GetAccessTokenHandler)
 
 	withTwitter.POST("/tweet/:tweetID/stamps/:stampID", handler.AddNewStampHandler)
 	withTwitter.GET("/tweet/:tweetID/stamps", handler.GetStampListHandler)
