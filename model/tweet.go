@@ -80,3 +80,43 @@ func Unretweet(api *anaconda.TwitterApi, tweetID int64) (StampTweet, error) {
 
 	return stampTweet, nil
 }
+
+func Favorite(api *anaconda.TwitterApi, tweetID int64) (StampTweet, error) {
+	stampTweet := StampTweet{}
+	tweet, err := api.Favorite(tweetID)
+
+	if err != nil {
+		return stampTweet, err
+	}
+
+	stampTweet.Tweet = tweet
+	stampList, err := GetStampList(tweetID)
+
+	if err != nil {
+		return stampTweet, err
+	}
+
+	stampTweet.Stamp = stampList
+
+	return stampTweet, nil
+}
+
+func Unfavorite(api *anaconda.TwitterApi, tweetID int64) (StampTweet, error) {
+	stampTweet := StampTweet{}
+	tweet, err := api.Unfavorite(tweetID)
+
+	if err != nil {
+		return stampTweet, err
+	}
+
+	stampTweet.Tweet = tweet
+	stampList, err := GetStampList(tweetID)
+
+	if err != nil {
+		return stampTweet, err
+	}
+
+	stampTweet.Stamp = stampList
+
+	return stampTweet, nil
+}

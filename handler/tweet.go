@@ -37,7 +37,7 @@ func RetweetHandler(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-		return c.String(http.StatusInternalServerError, "faild to unretweet")
+		return c.String(http.StatusInternalServerError, "faild to retweet")
 	}
 
 	return c.JSON(http.StatusOK, stampTweet)
@@ -53,7 +53,39 @@ func UnretweetHandler(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-		return c.String(http.StatusInternalServerError, "faild to retweet")
+		return c.String(http.StatusInternalServerError, "faild to unretweet")
+	}
+
+	return c.JSON(http.StatusOK, stampTweet)
+}
+
+func FavoriteHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
+	tweetIDStr := c.Param("tweetID")
+	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
+
+	stampTweet, err := model.Favorite(api, tweetID)
+
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "faild to make favorite")
+	}
+
+	return c.JSON(http.StatusOK, stampTweet)
+}
+
+func UnfavoriteHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
+	tweetIDStr := c.Param("tweetID")
+	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
+
+	stampTweet, err := model.Unfavorite(api, tweetID)
+
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "faild to destroy favorite")
 	}
 
 	return c.JSON(http.StatusOK, stampTweet)
