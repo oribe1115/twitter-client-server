@@ -37,11 +37,11 @@ func main() {
 	}
 
 	e := echo.New()
-	e.Use(middleware.CORS())
-	// e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-	// 	AllowOrigins:     []string{"http://localhost:8080"},
-	// 	AllowCredentials: true,
-	// }))
+	// e.Use(middleware.CORS())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins:     []string{"http://localhost:8080", "http://deploy.twitter-client-ui.hackathon19spring-1.trap.show/"},
+		AllowCredentials: true,
+	}))
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "HelloWorld")
