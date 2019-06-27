@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo"
 
@@ -24,4 +25,36 @@ func NewTweetPostHandler(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusInternalServerError, stampTweet)
+}
+
+func RetweetHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
+	tweetIDStr := c.Param("tweetID")
+	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
+
+	stampTweet, err := model.Retweet(api, tweetID)
+
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "faild to retweet")
+	}
+
+	return c.JSON(http.StatusOK, stampTweet)
+}
+
+func UnretweetHandler(c echo.Context) error {
+	api := model.ApiFromContext(c)
+
+	tweetIDStr := c.Param("tweetID")
+	tweetID, _ := strconv.ParseInt(tweetIDStr, 10, 64)
+
+	stampTweet, err := model.Unretweet(api, tweetID)
+
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "faild to retweet")
+	}
+
+	return c.JSON(http.StatusOK, stampTweet)
 }
