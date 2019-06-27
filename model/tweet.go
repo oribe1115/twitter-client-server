@@ -40,3 +40,43 @@ func GetJustTweet(api *anaconda.TwitterApi, tweetID int64) (anaconda.Tweet, erro
 
 	return tweet, nil
 }
+
+func Retweet(api *anaconda.TwitterApi, tweetID int64) (StampTweet, error) {
+	tweet, err := api.Retweet(tweetID, false)
+	stampTweet := StampTweet{}
+
+	if err != nil {
+		return stampTweet, err
+	}
+
+	stampTweet.Tweet = tweet
+	stampList, err := GetStampList(tweetID)
+
+	if err != nil {
+		return stampTweet, err
+	}
+
+	stampTweet.Stamp = stampList
+
+	return stampTweet, nil
+}
+
+func Unretweet(api *anaconda.TwitterApi, tweetID int64) (StampTweet, error) {
+	tweet, err := api.UnRetweet(tweetID, false)
+	stampTweet := StampTweet{}
+
+	if err != nil {
+		return stampTweet, err
+	}
+
+	stampTweet.Tweet = tweet
+	stampList, err := GetStampList(tweetID)
+
+	if err != nil {
+		return stampTweet, err
+	}
+
+	stampTweet.Stamp = stampList
+
+	return stampTweet, nil
+}
