@@ -15,7 +15,7 @@ func TellMeHandler(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-		return c.JSON(http.StatusInternalServerError, myDataToCheck)
+		return c.JSON(http.StatusForbidden, myDataToCheck)
 	}
 
 	return c.JSON(http.StatusOK, myDataToCheck)
