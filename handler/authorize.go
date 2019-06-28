@@ -73,7 +73,7 @@ func GetAccessTokenHandler(c echo.Context) error {
 
 	if err != nil {
 		fmt.Println(err)
-		return c.String(http.StatusInternalServerError, "faild to save session")
+		return c.String(http.StatusInternalServerError, "faild to redirect")
 	}
 
 	fmt.Println("success to get access token")
