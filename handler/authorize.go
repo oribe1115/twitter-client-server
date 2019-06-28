@@ -69,6 +69,13 @@ func GetAccessTokenHandler(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "faild to save session")
 	}
 
+	err = c.Redirect(http.StatusOK, "http://deploy.twitter-client-ui.hackathon19spring-1.trap.show/")
+
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "faild to save session")
+	}
+
 	fmt.Println("success to get access token")
 	return c.String(http.StatusOK, "success to get access token")
 }
